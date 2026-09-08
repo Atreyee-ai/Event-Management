@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventHub - Events</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html">EventHub</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+  <!-- Events -->
+  <section class="events">
+    <h2>Upcoming Events</h2>
+    <div class="event-list">
+      <div class="event-card popup-trigger" data-popup="techPopup">
+        <h3>Tech Conference 2025</h3>
+        <p>📅 Sep 10, 2025 | 📍 New York</p>
+        <button class="btn">Register</button>
+      </div>
+      <div class="event-card popup-trigger" data-popup="musicPopup">
+        <h3>Music Fest</h3>
+        <p>📅 Oct 22, 2025 | 📍 Los Angeles</p>
+        <button class="btn">Register</button>
+      </div>
+      <div class="event-card popup-trigger" data-popup="startupPopup">
+        <h3>Startup Meetup</h3>
+        <p>📅 Nov 5, 2025 | 📍 San Francisco</p>
+        <button class="btn">Register</button>
+      </div>
+    </div>
+  </section>
+  <section class="add-event">
+  <h2>Add Your Event</h2>
+  <form id="eventForm">
+    <input type="text" id="eventName" placeholder="Event Name" required>
+    <input type="date" id="eventDate" required>
+    <textarea id="eventDesc" placeholder="Event Description" required></textarea>
+    <button type="submit">Add Event</button>
+  </form>
+</section>
+
+<section class="user-events">
+  <h2>Upcoming Events</h2>
+  <div id="eventList"></div>
+</section>
+
+
+  <!-- Popups -->
+  <div class="popup" id="techPopup">
+    <div class="popup-content">
+      <span class="close">&times;</span>
+      <h3>Tech Conference 2025</h3>
+      <p>Join global tech leaders to discuss AI, Cloud, and the future of innovation.</p>
+    </div>
+  </div>
+
+  <div class="popup" id="musicPopup">
+    <div class="popup-content">
+      <span class="close">&times;</span>
+      <h3>Music Fest</h3>
+      <p>Experience live performances from top artists. Fun, music, and food await!</p>
+    </div>
+  </div>
+
+  <div class="popup" id="startupPopup">
+    <div class="popup-content">
+      <span class="close">&times;</span>
+      <h3>Startup Meetup</h3>
+      <p>Network with entrepreneurs, investors, and innovators at this exciting meetup.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 EventHub. All Rights Reserved.</p>
+  </footer>
+<script>
+  const eventForm = document.getElementById("eventForm");
+  const eventList = document.getElementById("eventList");
+
+  // Load events from localStorage
+  let events = JSON.parse(localStorage.getItem("events")) || [];
+
+  // Function to render events
+  function renderEvents() {
+    eventList.innerHTML = "";
+    events.forEach((e, index) => {
+      const card = document.createElement("div");
+      card.classList.add("event-card");
+      card.innerHTML = `
+        <h3>${e.name}</h3>
+        <p><strong>Date:</strong> ${e.date}</p>
+        <p>${e.desc}</p>
+      `;
+      eventList.appendChild(card);
+    });
+  }
+
+  // Handle form submit
+  eventForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const newEvent = {
+      name: document.getElementById("eventName").value,
+      date: document.getElementById("eventDate").value,
+      desc: document.getElementById("eventDesc").value
+    };
+    events.push(newEvent);
+    localStorage.setItem("events", JSON.stringify(events));
+    renderEvents();
+    eventForm.reset();
+  });
+
+  // Render on load
+  renderEvents();
+</script>
+
+  <script src="script.js"></script>
+</body>
+</html>
